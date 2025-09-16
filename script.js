@@ -63,3 +63,29 @@ tabs.forEach((tab) => {
     });
   });
 });
+
+// Get Started button functionality - redirect to thank you page
+const getStartedButtons = document.querySelectorAll(".btn, .special-btn");
+
+getStartedButtons.forEach((button) => {
+  button.addEventListener("click", function (e) {
+    e.preventDefault();
+    let plan = "";
+
+    // Determine which plan was selected
+    if (this.classList.contains("special-btn")) {
+      plan = "bwd-community";
+    } else {
+      const card = this.closest(".pricing-card");
+      if (card) {
+        const planName = card.querySelector(".plan-name").textContent;
+        if (planName.includes("Essential")) plan = "basic";
+        else if (planName.includes("Advanced")) plan = "standard";
+        else if (planName.includes("Enterprise")) plan = "premium";
+      }
+    }
+
+    // Redirect to thank you page with plan as query parameter
+    window.location.href = `thank-you.html?plan=${plan}`;
+  });
+});
